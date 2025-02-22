@@ -26,9 +26,6 @@ app.use(cors({
 // Middleware
 app.use(bodyParser.json());
 
-// Use the health check route (accessible at /health)
-app.use('/health', healthRoutes);
-
 // Configure AWS S3 client using AWS SDK v3
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -60,6 +57,8 @@ const upload = multer({
 // Apply the upload middleware to product routes
 app.use('/api/products', upload.single('image'), productRoutes);
 app.use('/api', orderRoutes);
+// Use the health check route (accessible at /health)
+app.use('/health', healthRoutes);
 
 // Start the server
 app.listen(PORT, () => {
